@@ -205,7 +205,10 @@
             {
               "diskSizeGB": "[parameters('dataDiskSize')]",
               "lun": 0,
-              "createOption": "Attach"
+              "createOption": "Attach",
+              "managedDisk": {
+                "id": "[resourceId('Microsoft.Compute/disks/', concat(parameters('vmName'),'-datadisk1'))]"
+              }
             }
           ]
         },
