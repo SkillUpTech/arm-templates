@@ -87,8 +87,11 @@ packages:
   - liblzma-dev
 
 runcmd:
-  - "curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash && exec $shell"
-  - export PATH="$HOME/.pyenv/bin:$PATH" && pyenv install 3.8.6
+  - |
+    curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash;
+    export PATH="$HOME/.pyenv/bin:$PATH";
+    exec $shell;
+    pyenv install 3.8.6;
 
 write_files:
   - path: /home/vm-root/.bashrc

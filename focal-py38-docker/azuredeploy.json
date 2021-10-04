@@ -199,19 +199,13 @@
           "osDisk": {
             "name": "[concat(parameters('vmName'),'_OSDisk')]",
             "caching": "ReadWrite",
-            "createOption": "FromImage",
-            "managedDisk": {
-              "storageAccountType": "[variables('diskStorageType')]"
-            }
+            "createOption": "FromImage"
           },
           "dataDisks": [
             {
               "diskSizeGB": "[parameters('dataDiskSize')]",
               "lun": 0,
-              "createOption": "Attach",
-              "managedDisk": {
-                "storageAccountType": "[variables('diskStorageType')]"
-              }
+              "createOption": "Attach"
             }
           ]
         },
