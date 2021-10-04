@@ -176,8 +176,7 @@
       "name": "[parameters('vmName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]",
-        "[variables('dataDiskID')]"
+        "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
       ],
       "properties": {
         "hardwareProfile": {
@@ -206,7 +205,7 @@
             {
               "diskSizeGB": "[parameters('dataDiskSize')]",
               "lun": 0,
-              "createOption": "Attach",
+              "createOption": "Empty",
               "managedDisk": {
                 "id": "[variables('dataDiskID')]"
               }
