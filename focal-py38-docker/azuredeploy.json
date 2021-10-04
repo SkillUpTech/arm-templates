@@ -57,11 +57,11 @@
     "imageOffer": "0001-com-ubuntu-pro-focal",
     "imageSKU": "pro-20_04-lts-gen2",
     "adminUsername": "vm-root",
+    "dataDiskID": "[resourceId('Microsoft.Compute/disks/', concat(parameters('vmName'),'-datadisk0'))]",
     "nicName": "myVMNicD",
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "Subnet",
     "subnetPrefix": "10.0.0.0/24",
-    "diskStorageType": "Standard_LRS",
     "publicIPAddressName": "myPublicIPD",
     "publicIPAddressType": "Dynamic",
     "virtualNetworkName": "MyVNETD",
@@ -176,7 +176,8 @@
       "name": "[parameters('vmName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+        "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]",
+        "[variables('dataDiskID')]"
       ],
       "properties": {
         "hardwareProfile": {
@@ -207,7 +208,7 @@
               "lun": 0,
               "createOption": "Attach",
               "managedDisk": {
-                "id": "[resourceId('Microsoft.Compute/disks/', concat(parameters('vmName'),'-datadisk1'))]"
+                "id": "[variables('dataDiskID')]"
               }
             }
           ]
