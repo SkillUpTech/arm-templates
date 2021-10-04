@@ -2,13 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "0.0.0.0",
   "parameters": {
-    "adminUsername": {
-      "type": "string",
-      "defaultValue": "vm-root",
-      "metadata": {
-        "description": "Username for the Virtual Machine."
-      }
-    },
     "dnsNameForPublicIP": {
       "type": "string",
       "metadata": {
@@ -20,13 +13,6 @@
       "defaultValue": "Standard_D2as_v4",
       "metadata": {
         "description": "VM size for the host."
-      }
-    },
-    "ubuntuOSVersion": {
-      "type": "string",
-      "defaultValue": "20.04-LTS",
-      "metadata": {
-        "description": "The Ubuntu version for host machine."
       }
     },
     "location": {
@@ -69,6 +55,8 @@
   "variables": {
     "imagePublisher": "Canonical",
     "imageOffer": "0001-com-ubuntu-pro-focal",
+    "imageSKU": "pro-20_04-lts-gen2",
+    "adminUsername": "vm-root",
     "nicName": "myVMNicD",
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "Subnet",
@@ -76,7 +64,6 @@
     "diskStorageType": "Standard_LRS",
     "publicIPAddressName": "myPublicIPD",
     "publicIPAddressType": "Dynamic",
-    "vmName": "[parameters('vmName')]",
     "virtualNetworkName": "MyVNETD",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
     "linuxConfiguration": {
@@ -84,7 +71,7 @@
       "ssh": {
         "publicKeys": [
           {
-            "path": "[concat('/home/', parameters('adminUsername'), '/.ssh/authorized_keys')]",
+            "path": "[concat('/home/', variables('adminUsername'), '/.ssh/authorized_keys')]",
             "keyData": "[parameters('adminPasswordOrKey')]"
           }
         ]
@@ -186,7 +173,7 @@
     {
       "apiVersion": "2020-06-01",
       "type": "Microsoft.Compute/virtualMachines",
-      "name": "[variables('vmName')]",
+      "name": "[parameters('vmName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
@@ -196,8 +183,8 @@
           "vmSize": "[parameters('vmSize')]"
         },
         "osProfile": {
-          "computerName": "[variables('vmName')]",
-          "adminUsername": "[parameters('adminUsername')]",
+          "computerName": "[parameters('vmName')]",
+          "adminUsername": "[variables('adminUsername')]",
           "adminPassword": "[parameters('adminPasswordOrKey')]",
           "linuxConfiguration": "[if(equals(parameters('authenticationType'), 'password'), json('null'), variables('linuxConfiguration'))]",
           "customData": "[base64(variables('customData'))]"
@@ -206,11 +193,11 @@
           "imageReference": {
             "publisher": "[variables('imagePublisher')]",
             "offer": "[variables('imageOffer')]",
-            "sku": "[parameters('ubuntuOSVersion')]",
+            "sku": "[variables('imageSKU')]",
             "version": "latest"
           },
           "osDisk": {
-            "name": "[concat(variables('vmName'),'_OSDisk')]",
+            "name": "[concat(parameters('vmName'),'_OSDisk')]",
             "caching": "ReadWrite",
             "createOption": "FromImage",
             "managedDisk": {
