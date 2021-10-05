@@ -180,7 +180,7 @@
       ],
       "plan": {
         "name": "[variables('imagePlan')]",
-        "product": "[variables('imageOffer')]",
+        "product": "[variables('imageSKU')]",
         "publisher": "[variables('imagePublisher')]"
       },
       "properties": {
