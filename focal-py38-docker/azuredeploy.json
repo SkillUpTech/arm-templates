@@ -54,9 +54,8 @@
   },
   "variables": {
     "imagePublisher": "Canonical",
-    "imageOffer": "0001-com-ubuntu-pro-focal",
-    "imageSKU": "pro-20_04-lts-gen2",
-    "imagePlan": "Ubuntu Pro 20.04 LTS",
+    "imageOffer": "0001-com-ubuntu-server-focal",
+    "imageSKU": "20_04-lts-gen2",
     "adminUsername": "vm-root",
     "nicName": "myVMNicD",
     "addressPrefix": "10.0.0.0/16",
@@ -178,11 +177,6 @@
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
       ],
-      "plan": {
-        "name": "[variables('imagePlan')]",
-        "product": "[variables('imageSKU')]",
-        "publisher": "[variables('imagePublisher')]"
-      },
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
