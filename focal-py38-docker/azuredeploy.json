@@ -45,7 +45,7 @@
     },
     "baseURI": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/focal-py38-docker"
+      "defaultValue": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/focal-py38-docker/"
     },
     "dataDiskSize": {
       "type": "int",
