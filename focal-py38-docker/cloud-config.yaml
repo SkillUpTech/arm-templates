@@ -27,12 +27,6 @@ fs_setup:
 mounts:
     - ["/dev/disk/azure/scsi1/lun0-part1", "/var", auto, "defaults,noexec,nofail"]
 
-# USER CONFIGURATION #
-users:
-  - name: vm-root
-    homedir: /home/vm-root
-    sudo: ALL=(ALL) NOPASSWD:ALL
-
 # DOCKER INSTALLATION #
 apt:
   sources:
