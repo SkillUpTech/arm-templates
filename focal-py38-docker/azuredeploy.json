@@ -177,6 +177,11 @@
       "dependsOn": [
         "[resourceId('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
       ],
+      "plan": {
+        "name": "[variables('imageSKU')]",
+        "product": "[variables('imageOffer')]",
+        "publisher": "[variables('imagePublisher')]"
+      },
       "properties": {
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
