@@ -50,6 +50,7 @@ packages:
   - python3.8-dev
   - python3.8-distutils
   - python3.8-venv
+  - python3-pip
 write_files:
   - path: /etc/sysctl.d/enabled_ipv4_forwarding.conf
     content: |
@@ -63,3 +64,8 @@ power_state:
   mode: reboot
   message: Finished cloud-init configuration. Rebooting.
   condition: True
+runcmd:
+  - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+  - chmod +x /usr/local/bin/docker-compose
+  - ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+  - curl -L https://raw.githubusercontent.com/docker/compose/1.29.2/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
