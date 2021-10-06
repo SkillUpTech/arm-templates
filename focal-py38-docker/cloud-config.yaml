@@ -59,11 +59,6 @@ groups:
 system_info:
   default_user:
     groups: [docker]
-run_cmd:
-  - mkdir -p /storage/var
-  - rsync -vau /var/ /storage/var
-  - mv /var /var.bak
-  - ln -sf /storage/var /var
 power_state:
   mode: reboot
   message: Finished cloud-init configuration. Rebooting.

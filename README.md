@@ -9,5 +9,4 @@ This repository hosts useful ARM templates at public URLs (https://raw.githubuse
 
 Ubuntu 20.04 Pro development VM with Docker and Python 3.8 pre-installed. 
 - Uses a `D2as_v4` VM by default.
-- A data disk is added and mounted to `/storage` and `/var` is symlinked to `/storage/var` (defaults to 64GiB).
-    - Thus, Docker's data directory will reside on the data disk.
+- A data disk is added and mounted to `/storage`.
