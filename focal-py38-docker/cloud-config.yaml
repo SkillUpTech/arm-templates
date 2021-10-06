@@ -9,7 +9,7 @@ fs_setup:
     partition: 1
     filesystem: ext4
 mounts:
-    - ["/dev/disk/azure/scsi1/lun0-part1", "/var/lib", auto, "defaults,noexec,nofail"]
+    - ["/dev/disk/azure/scsi1/lun0-part1", "/storage", auto, "defaults,noexec,nofail"]
 apt:
   sources:
     docker.list:
