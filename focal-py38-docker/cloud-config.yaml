@@ -1,18 +1,22 @@
 #cloud-config
-
-# GENERAL #
-
-# Allow duplicate keys in this file to be merged together.
-merge_how:
- - name: list
-   settings: [append]
- - name: dict
-   settings: [no_replace, recurse_list]
-
-# Update apt-get repos and upgrade packages on first boot.
+disk_setup:
+  /dev/disk/azure/scsi1/lun0:
+    table_type: gpt
+    layout: True
+    overwrite: True
+fs_setup:
+  - device: /dev/disk/azure/scsi1/lun0
+    partition: 1
+    filesystem: ext4
+mounts:
+    - ["/dev/disk/azure/scsi1/lun0-part1", "/datadrive", auto, "defaults,noexec,nofail"]
+apt:
+  sources:
+    docker.list:
+      source: deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable
+      keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
 package_update: true
 package_upgrade: true
-
 packages:
   - make
   - build-essential
@@ -36,28 +40,6 @@ packages:
   - curl
   - wget
   - jq
-
-# DATA DISK CONFIGURATION #
-disk_setup:
-  /dev/disk/azure/scsi1/lun0:
-    table_type: gpt
-    layout: True
-    overwrite: True
-fs_setup:
-  - device: /dev/disk/azure/scsi1/lun0
-    partition: 1
-    filesystem: ext4
-mounts:
-    - ["/dev/disk/azure/scsi1/lun0-part1", "/datadrive", auto, "defaults,noexec,nofail"]
-
-# DOCKER INSTALLATION #
-apt:
-  sources:
-    docker.list:
-      source: deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable
-      keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
-
-packages:
   - apt-transport-https
   - ca-certificates
   - curl
@@ -66,26 +48,16 @@ packages:
   - docker-ce-cli
   - containerd.io
   - docker.io
-
-# Enable ipv4 forwarding.
-write_files:
-  - path: /etc/sysctl.d/enabled_ipv4_forwarding.conf
-    content: |
-      net.ipv4.conf.all.forwarding=1
-
-# Create the docker group.
-groups:
-  - docker
-
-# Add the admin user to the docker group.
-system_info:
-  vm-root:
-    groups: [docker]
-
-
-# PYTHON INSTALLATION #
-packages:
   - python3.8
   - python3.8-dev
   - python3.8-distutils
   - python3.8-venv
+write_files:
+  - path: /etc/sysctl.d/enabled_ipv4_forwarding.conf
+    content: |
+      net.ipv4.conf.all.forwarding=1
+groups:
+  - docker
+system_info:
+  vm-root:
+    groups: [docker]
