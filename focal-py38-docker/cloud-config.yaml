@@ -9,7 +9,7 @@ fs_setup:
     partition: 1
     filesystem: ext4
 mounts:
-    - ["/dev/disk/azure/scsi1/lun0-part1", "/datadrive", auto, "defaults,noexec,nofail"]
+    - ["/dev/disk/azure/scsi1/lun0-part1", "/var/lib", auto, "defaults,noexec,nofail"]
 apt:
   sources:
     docker.list:
@@ -57,5 +57,5 @@ write_files:
 groups:
   - docker
 system_info:
-  vm-root:
+  default_user:
     groups: [docker]
