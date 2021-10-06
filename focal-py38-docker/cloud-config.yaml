@@ -24,7 +24,7 @@ fs_setup:
     partition: 1
     filesystem: ext4
 mounts:
-    - ["/dev/disk/azure/scsi1/lun0-part1", "/var", auto, "defaults,noexec,nofail"]
+    - ["/dev/disk/azure/scsi1/lun0-part1", "/datadrive", auto, "defaults,noexec,nofail"]
 
 # DOCKER INSTALLATION #
 apt:
