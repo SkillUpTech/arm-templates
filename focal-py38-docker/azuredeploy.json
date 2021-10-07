@@ -31,15 +31,16 @@
             "type": "int",
             "defaultValue": 64
         },
-        "nicName": {
+        "dnsName": {
             "type": "string",
-            "defaultValue": "[concat('nic-', variables('templateName'))]"
+            "metadata": {
+                "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
+            }
         }
     },
     "variables": {
         "templateName": "focal-py38-docker",
         "baseDir": "[concat(parameters('baseURI'), '/')]",
-        "nicID": "[resourceId('Microsoft.Network/networkInterfaces/', parameters('nicName'))]",
         "customData": "[concat('#include\n', uri(variables('baseDir'), 'cloud-config.yaml'))]",
         "networkTemplateURI": "[uri(parameters('baseURI'), 'common/network.json')]",
         "vmTemplateURI": "[uri(parameters('baseURI'), 'common/vm-with-storage.json')]"
@@ -55,7 +56,8 @@
                     "uri": "[variables('networkTemplateURI')]"
                 },
                 "parameters": {
-                    "templateName": { "value": "[variables('templateName')]" }
+                    "templateName": { "value": "[variables('templateName')]" },
+                    "dnsName": { "value": "[parameters('dnsName')]" }
                 }
             }
         },
@@ -63,6 +65,9 @@
             "type": "Microsoft.Resources/deployments",
             "apiVersion": "2021-04-01",
             "name": "vm",
+            "dependsOn": [
+                "[resourceId('Microsoft.Resources/deployments', 'network')]"
+            ],
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
@@ -70,7 +75,7 @@
                 },
                 "parameters": {
                     "templateName": { "value": "[variables('templateName')]" },
-                    "nicID": { "value": "[variables('nicID')]" },
+                    "nicID": { "value": "[reference('network').outputs.nicID.value]" },
                     "vmName": { "value": "[parameters('vmName')]" },
                     "vmSize": { "value": "[parameters('vmSize')]" },
                     "authenticationType": { "value": "sshPublicKey" },

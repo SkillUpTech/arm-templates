@@ -57,11 +57,18 @@
             "defaultValue": "10.0.0.0/16"
         }
     },
+    "outputs": {
+        "nicID": {
+            "type": "string",
+            "value": "[variables('nicID')]"
+        }
+    },
     "variables": {
         "subnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName'))]",
         "nsgID": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('nsgName'))]",
         "ipAddressID": "[resourceId('Microsoft.Network/publicIPAddresses/', parameters('ipAddressName'))]",
-        "vnetID": "[resourceId('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]"
+        "vnetID": "[resourceId('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]",
+        "nicID": "[resourceId('Microsoft.Network/networkInterfaces', parameters('nicName'))]"
     },
     "resources": [
         {
