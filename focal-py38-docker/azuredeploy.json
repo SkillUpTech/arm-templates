@@ -27,7 +27,7 @@
             "type": "string",
             "defaultValue": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/"
         },
-        "dataDiskSize": {
+        "dataDiskGB": {
             "type": "int",
             "defaultValue": 64
         },
@@ -74,7 +74,7 @@
                     "authenticationType": "sshPublicKey",
                     "adminPasswordOrKey": "[parameters('sshPublicKey')]",
                     "customData": "[base64(variables('customData'))]",
-                    "dataDiskSize": "[parameters('dataDiskSize')]",
+                    "dataDiskGB": "[parameters('dataDiskGB')]",
                     "location": "[parameters('location')]"
                 }
             }

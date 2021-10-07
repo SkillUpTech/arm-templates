@@ -37,7 +37,7 @@
                 "description": "SSH Key or password for the Virtual Machine. SSH key is recommended."
             }
         },
-        "dataDiskSize": {
+        "dataDiskGB": {
             "type": "int",
             "defaultValue": 64
         },
@@ -110,7 +110,7 @@
                     },
                     "dataDisks": [
                         {
-                            "diskSizeGB": "[parameters('dataDiskSize')]",
+                            "diskSizeGB": "[parameters('dataDiskGB')]",
                             "lun": 0,
                             "createOption": "Empty"
                         }
