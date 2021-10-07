@@ -1,0 +1,157 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "templateName": {
+            "type": "string"
+        },
+        "dnsName": {
+            "type": "string",
+            "metadata": {
+                "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        },
+        "subnetName": {
+            "type": "string",
+            "defaultValue": "[concat('subnet-', parameters('templateName'))]"
+        },
+        "subnetPrefix": {
+            "type": "string",
+            "defaultValue": "10.0.0.0/24"
+        },
+        "nsgName": {
+            "type": "string",
+            "defaultValue": "[concat('nsg-', parameters('templateName'))]",
+            "metadata": {
+                "description": "Name to use for the nework security group."
+            }
+        },
+        "nicName": {
+            "type": "string",
+            "defaultValue": "[concat('nic-', parameters('templateName'))]"
+        },
+        "vnetName": {
+            "type": "string",
+            "defaultValue": "[concat('vnet-', parameters('templateName'))]",
+            "metadata": {
+                "description": "Name to use for the virtual network."
+            }
+        },
+        "ipAddressName": {
+            "type": "string",
+            "defaultValue": "[concat('ip-', parameters('templateName'))]"
+        },
+        "ipAddressType": {
+            "type": "string",
+            "defaultValue": "Dynamic"
+        },
+        "ipAddressPrefix": {
+            "type": "string",
+            "defaultValue": "10.0.0.0/16"
+        }
+    },
+    "variables": {
+        "subnetID": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('vnetName'), parameters('subnetName'))]",
+        "nsgID": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('nsgName'))]",
+        "ipAddressID": "[resourceId('Microsoft.Network/publicIPAddresses/', parameters('ipAddressName'))]",
+        "vnetID": "[resourceId('Microsoft.Network/virtualNetworks/', parameters('vnetName'))]"
+    },
+    "resources": [
+        {
+            "apiVersion": "2020-06-01",
+            "type": "Microsoft.Network/publicIPAddresses",
+            "name": "[parameters('ipAddressName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "publicIPAllocationMethod": "[parameters('ipAddressType')]",
+                "dnsSettings": {
+                    "domainNameLabel": "[parameters('dnsName')]"
+                }
+            }
+        },
+        {
+            "comments": "Default Network Security Group for template",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2020-06-01",
+            "name": "[parameters('nsgName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "securityRules": [
+                    {
+                        "name": "default-allow-22",
+                        "properties": {
+                            "priority": 1000,
+                            "access": "Allow",
+                            "direction": "Inbound",
+                            "destinationPortRange": "22",
+                            "protocol": "Tcp",
+                            "sourceAddressPrefix": "*",
+                            "sourcePortRange": "*",
+                            "destinationAddressPrefix": "*"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2020-06-01",
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[parameters('vnetName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[variables('nsgID')]"
+            ],
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[parameters('ipAddressPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[parameters('subnetName')]",
+                        "properties": {
+                            "addressPrefix": "[parameters('subnetPrefix')]",
+                            "networkSecurityGroup": {
+                                "id": "[variables('nsgID')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "apiVersion": "2020-06-01",
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('nicName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[variables('ipAddressID')]",
+                "[variables('vnetID')]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                "id": "[variables('ipAddressID')]"
+                            },
+                            "subnet": {
+                                "id": "[variables('subnetID')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
