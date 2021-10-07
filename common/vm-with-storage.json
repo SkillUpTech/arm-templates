@@ -73,8 +73,7 @@
                     }
                 ]
             }
-        },
-        "nicID": "[parameters('nicID')]"
+        }
     },
     "resources": [
         {
@@ -82,9 +81,6 @@
             "type": "Microsoft.Compute/virtualMachines",
             "name": "[parameters('vmName')]",
             "location": "[parameters('location')]",
-            "dependsOn": [
-                "[variables('nicID')]"
-            ],
             "properties": {
                 "hardwareProfile": {
                     "vmSize": "[parameters('vmSize')]"
