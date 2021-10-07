@@ -53,7 +53,7 @@
                     "uri": "[uri(parameters('baseURI'), '/common/network.json')]"
                 },
                 "parameters": {
-                    "templateName": "[variables('templateName')]"
+                    "templateName": { "value": "[variables('templateName')]" }
                 }
             }
         },
@@ -67,15 +67,15 @@
                     "uri": "[uri(parameters('baseURI'), '/common/vm-with-storage.json')]"
                 },
                 "parameters": {
-                    "templateName": "[variables('templateName')]",
-                    "nicID": "[variables('nicID')]",
-                    "vmName": "[parameters('vmName')]",
-                    "vmSize": "[parameters('vmSize')]",
-                    "authenticationType": "sshPublicKey",
-                    "adminPasswordOrKey": "[parameters('sshPublicKey')]",
-                    "customData": "[base64(variables('customData'))]",
-                    "dataDiskGB": "[parameters('dataDiskGB')]",
-                    "location": "[parameters('location')]"
+                    "templateName": { "value": "[variables('templateName')]" },
+                    "nicID": { "value": "[variables('nicID')]" },
+                    "vmName": { "value": "[parameters('vmName')]" },
+                    "vmSize": { "value": "[parameters('vmSize')]" },
+                    "authenticationType": { "value": "sshPublicKey" },
+                    "adminPasswordOrKey": { "value": "[parameters('sshPublicKey')]" },
+                    "customData": { "value": "[base64(variables('customData'))]" },
+                    "dataDiskGB": { "value": "[parameters('dataDiskGB')]" },
+                    "location": { "value": "[parameters('location')]" }
                 }
             }
         }
