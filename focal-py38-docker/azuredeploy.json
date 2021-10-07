@@ -25,7 +25,7 @@
         },
         "baseURI": {
             "type": "string",
-            "defaultValue": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/focal-py38-docker/"
+            "defaultValue": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/"
         },
         "dataDiskSize": {
             "type": "int",
@@ -38,8 +38,9 @@
     },
     "variables": {
         "templateName": "focal-py38-docker",
+        "templateDir": "[concat(uri(parameters('baseURI'), variables('templateName')), '/')]",
         "nicID": "[resourceId('Microsoft.Network/networkInterfaces/', parameters('nicName'))]",
-        "customData": "[concat('#include\n', uri(parameters('baseURI'), concat(variables('templateName'), '/cloud-config.yaml')))]"
+        "customData": "[concat('#include\n', uri(variables('templateDir'), '/cloud-config.yaml'))]"
     },
     "resources": [
         {
@@ -49,7 +50,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[uri(parameters('baseURI'), 'common/network.json')]"
+                    "uri": "[uri(parameters('baseURI'), '/common/network.json')]"
                 },
                 "parameters": {
                     "templateName": "[variables('templateName')]"
@@ -63,7 +64,7 @@
             "properties": {
                 "mode": "Incremental",
                 "templateLink": {
-                    "uri": "[uri(parameters('baseURI'), 'common/vm-with-storage.json')]"
+                    "uri": "[uri(parameters('baseURI'), '/common/vm-with-storage.json')]"
                 },
                 "parameters": {
                     "templateName": "[variables('templateName')]",
