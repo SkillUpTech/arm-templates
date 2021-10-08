@@ -1,4 +1,9 @@
 #cloud-config
+merge_how:
+ - name: list
+   settings: [append]
+ - name: dict
+   settings: [no_replace, recurse_list]
 disk_setup:
   /dev/disk/azure/scsi1/lun0:
     table_type: gpt
