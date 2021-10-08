@@ -4,4 +4,4 @@
 
 Azure Resource Manager (ARM) template for a development VM with Docker, Docker Compose, and Python3.8 pre-installed.
 
-Inspired by https://github.com/Azure/azure-quickstart-templates.
+Inspired by https://github.com/Azure/azure-quickstart-templates/blob/master/application-workloads/docker/docker-simple-on-ubuntu/.
