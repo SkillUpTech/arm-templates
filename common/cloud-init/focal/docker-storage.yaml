@@ -1,0 +1,11 @@
+#cloud-config
+
+write_files:
+  - path: /etc/docker/daemon.json
+    content: |
+      {
+        "data-root": "/storage/docker/data"
+      }
+
+runcmd:
+  - mkdir -p /storage/docker/data

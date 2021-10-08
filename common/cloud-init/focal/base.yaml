@@ -1,0 +1,35 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+packages:
+  - apt-transport-https
+  - apt-utils
+  - bash-completion
+  - build-essential
+  - ca-certificates
+  - curl
+  - git
+  - htop
+  - jq
+  - less
+  - locales
+  - lsof
+  - make
+  - man-db
+  - moreutils
+  - nano
+  - software-properties-common
+  - ssl-cert
+  - sudo
+  - tar
+  - time
+  - unzip
+  - vim
+  - wget
+  - zip
+
+write_files:
+  - path: /etc/sysctl.d/enabled_ipv4_forwarding.conf
+    content: |
+      net.ipv4.conf.all.forwarding=1

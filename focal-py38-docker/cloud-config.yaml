@@ -4,82 +4,10 @@ merge_how:
    settings: [append]
  - name: dict
    settings: [no_replace, recurse_list]
-disk_setup:
-  /dev/disk/azure/scsi1/lun0:
-    table_type: gpt
-    layout: True
-    overwrite: True
-fs_setup:
-  - device: /dev/disk/azure/scsi1/lun0
-    partition: 1
-    filesystem: ext4
-mounts:
-    - ["/dev/disk/azure/scsi1/lun0-part1", "/storage", auto, "defaults,noexec,nofail"]
-apt:
-  sources:
-    docker.list:
-      source: deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable
-      keyid: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
-package_update: true
-package_upgrade: true
-packages:
-  - apt-transport-https
-  - apt-utils
-  - bash-completion
-  - build-essential
-  - ca-certificates
-  - containerd.io
-  - curl
-  - curl
-  - docker-ce
-  - docker-ce-cli
-  - git
-  - htop
-  - jq
-  - less
-  - locales
-  - lsof
-  - make
-  - man-db
-  - moreutils
-  - nano
-  - python3-pip
-  - python3.8
-  - python3.8-dev
-  - python3.8-distutils
-  - python3.8-venv
-  - software-properties-common
-  - ssl-cert
-  - sudo
-  - tar
-  - time
-  - unzip
-  - vim
-  - wget
-  - zip
-write_files:
-  - path: /etc/sysctl.d/enabled_ipv4_forwarding.conf
-    content: |
-      net.ipv4.conf.all.forwarding=1
-  - path: /etc/docker/daemon.json
-    content: |
-      {
-        "data-root": "/storage/docker/data"
-      }
-groups:
-  - docker
-system_info:
-  default_user:
-    groups: [docker]
-runcmd:
-  - mkdir -p /storage/docker/data
-  - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-  - chmod +x /usr/local/bin/docker-compose
-  - ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
-  - curl -L https://raw.githubusercontent.com/docker/compose/1.29.2/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
-  - sudo -u vm-root python3 -m pip install --user pipx
-  - sudo -u vm-root python3 -m pipx ensurepath
-power_state:
-  mode: reboot
-  message: Finished cloud-init configuration. Rebooting.
-  condition: True
+
+#include
+https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/common/cloud-init/focal/base.yaml
+https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/common/cloud-init/focal/lun0-disk.yaml
+https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/common/cloud-init/focal/python38.yaml
+https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/common/cloud-init/focal/docker-storage.yaml
+https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/common/cloud-init/focal/docker.yaml
