@@ -1,11 +1,14 @@
 #cloud-config
-
+merge_how:
+ - name: list
+   settings: [append]
+ - name: dict
+   settings: [no_replace, recurse_list]
 write_files:
   - path: /etc/docker/daemon.json
     content: |
       {
         "data-root": "/storage/docker/data"
       }
-
 runcmd:
   - mkdir -p /storage/docker/data

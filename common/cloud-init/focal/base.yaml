@@ -1,7 +1,11 @@
 #cloud-config
+merge_how:
+ - name: list
+   settings: [append]
+ - name: dict
+   settings: [no_replace, recurse_list]
 package_update: true
 package_upgrade: true
-
 packages:
   - apt-transport-https
   - apt-utils
@@ -28,7 +32,6 @@ packages:
   - vim
   - wget
   - zip
-
 write_files:
   - path: /etc/sysctl.d/enabled_ipv4_forwarding.conf
     content: |
