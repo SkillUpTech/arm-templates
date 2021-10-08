@@ -57,7 +57,7 @@
             "type": "string",
             "defaultValue": "",
             "metadata": {
-                "description": "Base-64 encoded custom-data to be read by Cloud-Init."
+                "description": "custom-data to be read by Cloud-Init. Will be converted to base64."
             }
         }
     },
@@ -90,7 +90,7 @@
                     "adminUsername": "[variables('adminUsername')]",
                     "adminPassword": "[parameters('adminPasswordOrKey')]",
                     "linuxConfiguration": "[if(equals(parameters('authenticationType'), 'password'), json('null'), variables('linuxConfiguration'))]",
-                    "customData": "[parameters('customData')]"
+                    "customData": "[base64(parameters('customData'))]"
                 },
                 "storageProfile": {
                     "imageReference": {

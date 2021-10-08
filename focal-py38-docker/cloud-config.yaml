@@ -55,12 +55,18 @@ write_files:
   - path: /etc/sysctl.d/enabled_ipv4_forwarding.conf
     content: |
       net.ipv4.conf.all.forwarding=1
+  - path: /etc/docker/daemon.json
+    content: |
+      {
+        "data-root": "/storage/docker/data"
+      }
 groups:
   - docker
 system_info:
   default_user:
     groups: [docker]
 runcmd:
+  - mkdir -p /storage/docker/data
   - curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
   - chmod +x /usr/local/bin/docker-compose
   - ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose

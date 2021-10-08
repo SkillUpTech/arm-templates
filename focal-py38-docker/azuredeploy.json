@@ -77,7 +77,7 @@
                     "vmSize": { "value": "[parameters('vmSize')]" },
                     "authenticationType": { "value": "sshPublicKey" },
                     "adminPasswordOrKey": { "value": "[parameters('sshPublicKey')]" },
-                    "customData": { "value": "[base64(variables('customData'))]" },
+                    "customData": { "value": "[variables('customData')]" },
                     "dataDiskGB": { "value": "[parameters('dataDiskGB')]" },
                     "location": { "value": "[parameters('location')]" }
                 }
