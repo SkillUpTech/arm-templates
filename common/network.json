@@ -55,6 +55,24 @@
         "ipAddressPrefix": {
             "type": "string",
             "defaultValue": "10.0.0.0/16"
+        },
+        "nsgRules": {
+            "type": "array",
+            "defaultValue": [
+                {
+                    "name": "default-allow-22",
+                    "properties": {
+                        "priority": 1000,
+                        "access": "Allow",
+                        "direction": "Inbound",
+                        "destinationPortRange": "22",
+                        "protocol": "Tcp",
+                        "sourceAddressPrefix": "*",
+                        "sourcePortRange": "*",
+                        "destinationAddressPrefix": "*"
+                    }
+                }
+            ]
         }
     },
     "outputs": {
@@ -90,21 +108,7 @@
             "name": "[parameters('nsgName')]",
             "location": "[parameters('location')]",
             "properties": {
-                "securityRules": [
-                    {
-                        "name": "default-allow-22",
-                        "properties": {
-                            "priority": 1000,
-                            "access": "Allow",
-                            "direction": "Inbound",
-                            "destinationPortRange": "22",
-                            "protocol": "Tcp",
-                            "sourceAddressPrefix": "*",
-                            "sourcePortRange": "*",
-                            "destinationAddressPrefix": "*"
-                        }
-                    }
-                ]
+                "securityRules": "[parameters('nsgRules')]"
             }
         },
         {
