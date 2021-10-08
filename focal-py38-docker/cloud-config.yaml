@@ -23,39 +23,40 @@ apt:
 package_update: true
 package_upgrade: true
 packages:
-  - make
-  - build-essential
-  - apt-utils
-  - git
-  - zip
-  - unzip
-  - bash-completion
-  - htop
-  - less
-  - locales
-  - man-db
-  - software-properties-common
-  - time
-  - lsof
-  - ssl-cert
-  - tar
-  - moreutils
-  - vim
-  - nano
-  - curl
-  - wget
-  - jq
   - apt-transport-https
+  - apt-utils
+  - bash-completion
+  - build-essential
   - ca-certificates
+  - containerd.io
+  - curl
   - curl
   - docker-ce
   - docker-ce-cli
-  - containerd.io
+  - git
+  - htop
+  - jq
+  - less
+  - locales
+  - lsof
+  - make
+  - man-db
+  - moreutils
+  - nano
+  - python3-pip
   - python3.8
   - python3.8-dev
   - python3.8-distutils
   - python3.8-venv
-  - python3-pip
+  - software-properties-common
+  - ssl-cert
+  - sudo
+  - tar
+  - time
+  - unzip
+  - vim
+  - wget
+  - zip
 write_files:
   - path: /etc/sysctl.d/enabled_ipv4_forwarding.conf
     content: |
@@ -76,6 +77,8 @@ runcmd:
   - chmod +x /usr/local/bin/docker-compose
   - ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
   - curl -L https://raw.githubusercontent.com/docker/compose/1.29.2/contrib/completion/bash/docker-compose -o /etc/bash_completion.d/docker-compose
+  - sudo -u vm-root python3 -m pip install --user pipx
+  - sudo -u vm-root python3 -m pipx ensurepath
 power_state:
   mode: reboot
   message: Finished cloud-init configuration. Rebooting.
