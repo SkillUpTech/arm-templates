@@ -1,0 +1,4 @@
+#include
+https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/focal-py38-docker/cloud-config.yaml
+https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/common/cloud-init/focal/openedx/tutor.yaml
+https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/common/cloud-init/focal/openedx/recon.yaml

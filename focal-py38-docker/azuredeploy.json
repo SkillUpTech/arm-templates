@@ -2,9 +2,19 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "baseURI": {
+            "type": "string",
+            "defaultValue": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/focal-py38-docker"
+        },
+        "templateName": {
+            "type": "string",
+            "metadata": {
+                "description": "Prefix to use for resource names."
+            }
+        },
         "vmName": {
             "type": "string",
-            "defaultValue": "[concat('vm-', variables('templateName'))]"
+            "defaultValue": "[concat('vm-', parameters('templateName'))]"
         },
         "vmSize": {
             "type": "string",
@@ -23,10 +33,6 @@
         "sshPublicKey": {
             "type": "securestring"
         },
-        "baseURI": {
-            "type": "string",
-            "defaultValue": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/focal-py38-docker"
-        },
         "dataDiskGB": {
             "type": "int",
             "defaultValue": 64
@@ -39,7 +45,6 @@
         }
     },
     "variables": {
-        "templateName": "focal-py38-docker",
         "baseDir": "[concat(parameters('baseURI'), '/')]",
         "customData": "[concat('#include\n', uri(variables('baseDir'), 'cloud-config.yaml'))]",
         "networkTemplateURI": "[uri(parameters('baseURI'), 'common/network.json')]",
@@ -56,7 +61,7 @@
                     "uri": "[variables('networkTemplateURI')]"
                 },
                 "parameters": {
-                    "templateName": { "value": "[variables('templateName')]" },
+                    "templateName": { "value": "[parameters('templateName')]" },
                     "dnsName": { "value": "[parameters('dnsName')]" }
                 }
             }
@@ -71,7 +76,7 @@
                     "uri": "[variables('vmTemplateURI')]"
                 },
                 "parameters": {
-                    "templateName": { "value": "[variables('templateName')]" },
+                    "templateName": { "value": "[parameters('templateName')]" },
                     "nicID": { "value": "[reference('network').outputs.nicID.value]" },
                     "vmName": { "value": "[parameters('vmName')]" },
                     "vmSize": { "value": "[parameters('vmSize')]" },

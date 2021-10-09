@@ -1,0 +1,8 @@
+#cloud-config
+merge_how:
+ - name: list
+   settings: [append]
+ - name: dict
+   settings: [no_replace, recurse_list]
+runcmd:
+  - sudo -u vm-root python3 -m pipx inject tutor git+https://github.com/SkillUpTech/tutor-contrib-recon

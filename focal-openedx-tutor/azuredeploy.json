@@ -1,0 +1,73 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "vmName": {
+            "type": "string",
+            "defaultValue": "[concat('vm-', parameters('templateName'))]"
+        },
+        "vmSize": {
+            "type": "string",
+            "defaultValue": "Standard_D2as_v4",
+            "metadata": {
+                "description": "VM size for the host."
+            }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        },
+        "sshPublicKey": {
+            "type": "securestring"
+        },
+        "baseURI": {
+            "type": "string",
+            "defaultValue": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/focal-openedx-tutor"
+        },
+        "dataDiskGB": {
+            "type": "int",
+            "defaultValue": 64
+        },
+        "dnsName": {
+            "type": "string",
+            "metadata": {
+                "description": "Unique DNS Name for the Public IP used to access the Virtual Machine."
+            }
+        },
+        "templateName": {
+            "type": "string",
+            "metadata": {
+                "description": "Prefix to use for resource names."
+            }
+        }
+    },
+    "variables": {
+        "parentTemplateURI": "[uri(parameters('baseURI'), 'focal-py38-docker/azuredeploy.json')]"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2021-04-01",
+            "name": "focal-py38-docker-deployment",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('parentTemplateURI')]"
+                },
+                "parameters": {
+                    "baseURI": { "value": "[parameters('baseURI')]" },
+                    "templateName": { "value": "[parameters('templateName')]" },
+                    "vmName": {"value": "[parameters('vmName')]"},
+                    "vmSize": {"value": "[parameters('vmSize')]" },
+                    "location": {"value": "[parameters('location')]" },
+                    "sshPublicKey": {"value": "[parameters('sshPublicKey')]" },
+                    "dataDiskGB": {"value": "[parameters('dataDiskGB')]" },
+                    "dnsName": { "value": "[parameters('dnsName')]" }
+                }
+            }
+        }
+    ]
+}
