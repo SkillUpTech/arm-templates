@@ -10,7 +10,8 @@
             "type": "string",
             "metadata": {
                 "description": "Prefix to use for resource names."
-            }
+            },
+            "defaultValue": "focal-py38-docker"
         },
         "vmName": {
             "type": "string",
