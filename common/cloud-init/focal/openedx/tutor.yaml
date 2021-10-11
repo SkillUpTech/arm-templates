@@ -6,4 +6,3 @@ merge_how:
    settings: [no_replace, recurse_list]
 runcmd:
   - sudo -u vm-root python3 -m pipx install tutor
-  - sudo -u vm-root python3 -m pipx inject tutor git+https://github.com/SkillUpTech/tutor-contrib-recon
