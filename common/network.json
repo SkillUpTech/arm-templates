@@ -2,7 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "templateName": {
+        "resourceSuffix": {
             "type": "string"
         },
         "dnsName": {
@@ -20,7 +20,7 @@
         },
         "subnetName": {
             "type": "string",
-            "defaultValue": "[concat('subnet-', parameters('templateName'))]"
+            "defaultValue": "[concat('subnet-', parameters('resourceSuffix'))]"
         },
         "subnetPrefix": {
             "type": "string",
@@ -28,25 +28,25 @@
         },
         "nsgName": {
             "type": "string",
-            "defaultValue": "[concat('nsg-', parameters('templateName'))]",
+            "defaultValue": "[concat('nsg-', parameters('resourceSuffix'))]",
             "metadata": {
                 "description": "Name to use for the nework security group."
             }
         },
         "nicName": {
             "type": "string",
-            "defaultValue": "[concat('nic-', parameters('templateName'))]"
+            "defaultValue": "[concat('nic-', parameters('resourceSuffix'))]"
         },
         "vnetName": {
             "type": "string",
-            "defaultValue": "[concat('vnet-', parameters('templateName'))]",
+            "defaultValue": "[concat('vnet-', parameters('resourceSuffix'))]",
             "metadata": {
                 "description": "Name to use for the virtual network."
             }
         },
         "ipAddressName": {
             "type": "string",
-            "defaultValue": "[concat('ip-', parameters('templateName'))]"
+            "defaultValue": "[concat('ip-', parameters('resourceSuffix'))]"
         },
         "ipAddressType": {
             "type": "string",

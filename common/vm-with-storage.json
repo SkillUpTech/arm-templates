@@ -2,7 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "templateName": {
+        "resourceSuffix": {
             "type": "string"
         },
         "nicID": {
@@ -10,7 +10,7 @@
         },
         "vmName": {
             "type": "string",
-            "defaultValue": "[concat('vm-', parameters('templateName'))]"
+            "defaultValue": "[concat('vm-', parameters('resourceSuffix'))]"
         },
         "vmSize": {
             "type": "string",

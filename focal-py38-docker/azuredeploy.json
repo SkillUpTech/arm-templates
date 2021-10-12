@@ -4,18 +4,18 @@
     "parameters": {
         "baseURI": {
             "type": "string",
-            "defaultValue": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/focal-py38-docker"
+            "defaultValue": "[deployment().properties.templateLink.uri]"
         },
-        "templateName": {
+        "resourceSuffix": {
             "type": "string",
             "metadata": {
-                "description": "Prefix to use for resource names."
+                "description": "Suffix to use for resource names."
             },
-            "defaultValue": "focal-py38-docker"
+            "defaultValue": "[concat('focal-py38-docker-', uniqueString(resourceGroup().name, deployment().name))]"
         },
         "vmName": {
             "type": "string",
-            "defaultValue": "[concat('vm-', parameters('templateName'))]"
+            "defaultValue": "[concat('vm-', parameters('resourceSuffix'))]"
         },
         "vmSize": {
             "type": "string",
@@ -62,7 +62,7 @@
                     "uri": "[variables('networkTemplateURI')]"
                 },
                 "parameters": {
-                    "templateName": { "value": "[parameters('templateName')]" },
+                    "resourceSuffix": { "value": "[parameters('resourceSuffix')]" },
                     "dnsName": { "value": "[parameters('dnsName')]" }
                 }
             }
@@ -77,7 +77,7 @@
                     "uri": "[variables('vmTemplateURI')]"
                 },
                 "parameters": {
-                    "templateName": { "value": "[parameters('templateName')]" },
+                    "resourceSuffix": { "value": "[parameters('resourceSuffix')]" },
                     "nicID": { "value": "[reference('network').outputs.nicID.value]" },
                     "vmName": { "value": "[parameters('vmName')]" },
                     "vmSize": { "value": "[parameters('vmSize')]" },

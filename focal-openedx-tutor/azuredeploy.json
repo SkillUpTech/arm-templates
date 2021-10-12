@@ -4,18 +4,18 @@
     "parameters": {
         "baseURI": {
             "type": "string",
-            "defaultValue": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/focal-openedx-tutor"
+            "defaultValue": "[deployment().properties.templateLink.uri]"
         },
-        "templateName": {
+        "resourceSuffix": {
             "type": "string",
             "metadata": {
-                "description": "Prefix to use for resource names."
+                "description": "Suffix to use for resource names."
             },
-            "defaultValue": "focal-openedx-tutor"
+            "defaultValue": "[concat('focal-openedx-tutor-', uniqueString(resourceGroup().name, deployment().name))]"
         },
         "vmName": {
             "type": "string",
-            "defaultValue": "[concat('vm-', parameters('templateName'))]"
+            "defaultValue": "[concat('vm-', parameters('resourceSuffix'))]"
         },
         "vmSize": {
             "type": "string",
@@ -60,7 +60,7 @@
                 },
                 "parameters": {
                     "baseURI": { "value": "[parameters('baseURI')]" },
-                    "templateName": { "value": "[parameters('templateName')]" },
+                    "resourceSuffix": { "value": "[parameters('resourceSuffix')]" },
                     "vmName": {"value": "[parameters('vmName')]"},
                     "vmSize": {"value": "[parameters('vmSize')]" },
                     "location": {"value": "[parameters('location')]" },
