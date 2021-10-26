@@ -48,8 +48,8 @@
     "variables": {
         "baseDir": "[concat(parameters('baseURI'), '/')]",
         "customData": "[concat('#include\n', uri(variables('baseDir'), 'cloud-config.yaml'))]",
-        "networkTemplateURI": "[uri(parameters('baseURI'), 'common/network.json')]",
-        "vmTemplateURI": "[uri(parameters('baseURI'), 'common/vm-with-storage.json')]"
+        "networkTemplateURI": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/common/network.json",
+        "vmTemplateURI": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/common/vm-with-storage.json"
     },
     "resources": [
         {
