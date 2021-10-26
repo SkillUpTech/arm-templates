@@ -46,7 +46,7 @@
         }
     },
     "variables": {
-        "parentTemplateURI": "[uri(parameters('baseURI'), 'focal-py38-docker/azuredeploy.json')]"
+        "parentTemplateURI": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/focal-py38-docker/azuredeploy.json"
     },
     "resources": [
         {
