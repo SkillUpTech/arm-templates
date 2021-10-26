@@ -1,6 +1,29 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
+    "functions": [
+        {
+            "namespace": "skt",
+            "members": {
+                "uri": {
+                    "parameters": [
+                        {
+                            "name": "parent",
+                            "type": "string"
+                        },
+                        {
+                            "name": "suffix",
+                            "type": "string"
+                        }
+                    ],
+                    "output": {
+                        "type": "string",
+                        "value": "[concat(take(parameters('parent'), lastIndexOf(parameters('parent'), '/')), parameters('suffix'))]"
+                    }
+                }
+            }
+        }
+    ],
     "parameters": {
         "baseURI": {
             "type": "string",
@@ -47,7 +70,7 @@
     },
     "variables": {
         "baseDir": "[concat(parameters('baseURI'), '/')]",
-        "customData": "[concat('#include\n', uri(variables('baseDir'), 'cloud-config.yaml'))]",
+        "customData": "[concat('#include\n', skt.uri(variables('baseDir'), 'cloud-config.yaml'))]",
         "networkTemplateURI": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/common/network.json",
         "vmTemplateURI": "https://raw.githubusercontent.com/SkillUpTech/arm-templates/main/common/vm-with-storage.json"
     },
